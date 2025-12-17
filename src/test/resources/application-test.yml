@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: time-recorder-test
+  
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 5
+      connection-timeout: 5000
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+app:
+  time-recorder:
+#    record-interval-ms: 100
+#    reconnect-interval-ms: 500
+#    max-buffer-size: 1000
+#    batch-size: 10
+#    batch-write-timeout-ms: 5000
+    enabled: false
+
+logging:
+  level:
+    root: WARN
+    com.example.timerecorder: DEBUG

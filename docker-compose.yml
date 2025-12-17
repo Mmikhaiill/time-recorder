@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: timerecorder-db
+    environment:
+      POSTGRES_DB: timerecorder
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - timerecorder-network
+
+  # Time Recorder Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: timerecorder-app
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: timerecorder
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      JAVA_OPTS: "-Xms256m -Xmx512m"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - timerecorder-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  timerecorder-network:
+    driver: bridge
