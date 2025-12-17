@@ -1,0 +1,56 @@
+# =========================
+# Maven/Gradle
+# =========================
+target/
+build/
+.gradle
+.mvn/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# =========================
+# IDE
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.settings/
+.project
+.classpath
+*.tmp
+
+# VS Code
+.vscode/
+
+# =========================
+# Системные файлы
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Логи
+# =========================
+*.log
+logs/
+
+# =========================
+# Application Properties
+# =========================
+application*.yml
+application*.properties
+!application.yml
+!application.properties
+
+# =========================
+# Прочее
+# =========================
+HELP.md
+dependency-reduced-pom.xml
